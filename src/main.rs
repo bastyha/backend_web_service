@@ -18,10 +18,15 @@ fn handle_connection(mut stream: TcpStream){
     //reading request from the TCP stream
     stream.read(&mut buffer).unwrap(); //get the data (as bytes) from the TcpStream and putting them in a buffer
     
-    let response = "HTTP/1.1 200 OK\r\n\r\n";
-    
-    //converting the response to bytes and sending it
-    stream.write(response.as_bytes()).unwrap();
+    let get = b"GET /healthz HTTP/1.1\r\n"; //checking if request is for healthz
 
-    stream.flush().unwrap();//prevents the program from continuing whil the bytes from the response are being sent 
+    if buffer.starts_with(get){
+
+        let response = "HTTP/1.1 200 OK\r\n\r\n";
+        
+        //converting the response to bytes and sending it
+        stream.write(response.as_bytes()).unwrap();
+    
+        stream.flush().unwrap();//prevents the program from continuing whil the bytes from the response are being sent 
+    }
 }
