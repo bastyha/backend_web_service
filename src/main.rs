@@ -36,8 +36,8 @@ fn handle_connection(mut stream: TcpStream, accounts: &mut Vec<Account>){
     
     let get = b"GET /healthz HTTP/1.1\r\n"; //checking if request is for healthz
     
-    let mut status_line = String::new();
-    let mut content = String::new();
+    let mut status_line = "HTTP/1.1 404 Not Found\r\n".to_string();
+    let mut content="".to_string();
 
     if buffer.starts_with(get){ //checking what address
         status_line = "HTTP/1.1 200 OK\r\n".to_string();
@@ -85,6 +85,7 @@ fn handle_connection(mut stream: TcpStream, accounts: &mut Vec<Account>){
                                                 content="*****The json will not work, if there are any spaces between the curly brackets, because the reading will block, and the response will be \"400 Bad Request\"******".to_string();
                                             }
                                         }
+                    
                                     }
                                 }
                             }
